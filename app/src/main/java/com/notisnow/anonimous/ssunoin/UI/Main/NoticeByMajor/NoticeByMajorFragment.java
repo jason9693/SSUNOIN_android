@@ -51,10 +51,20 @@ public class NoticeByMajorFragment extends Fragment{
     class Holder extends RecyclerView.ViewHolder{
         TextView majorName;
         TextView engMajorName;
+        int position;
         public Holder(View itemView) {
             super(itemView);
             majorName=(TextView)itemView.findViewById(R.id.title);
             engMajorName=(TextView)itemView.findViewById(R.id.engtitle);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
+        public void setPosition(int position){
+            this.position=position;
         }
     }
 
@@ -73,6 +83,7 @@ public class NoticeByMajorFragment extends Fragment{
         public void onBindViewHolder(Holder holder, int position) {
             holder.majorName.setText(Data.getDepartmentOf().get(position).getName());
             holder.engMajorName.setText(Data.getDepartmentOf().get(position).getEngName());
+            holder.setPosition(position);
         }
 
 
