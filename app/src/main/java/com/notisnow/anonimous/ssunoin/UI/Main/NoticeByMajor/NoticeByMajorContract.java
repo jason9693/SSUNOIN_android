@@ -10,6 +10,6 @@ public interface NoticeByMajorContract {
     }
     interface Presenter{
         void setView(View v);
-
+        void initLoad(int position,View v);
     }
 }

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class NoticeActivity extends AppCompatActivity implements NoticeContract.View{
 
     NoticeContract.Presenter presenter;
-    ArrayList<NoticeObj> noticeObjs = new ArrayList<>();
+    ArrayList<NoticeObj> noticeObjs=new ArrayList<>();
     RecyclerView recyclerView;
     NoticeAdapter adapter;
     private int page=1;
@@ -31,15 +31,19 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice);
         int majorId=getIntent().getIntExtra("majorId",0);
+       // noticeObjs=(ArrayList<NoticeObj>)getIntent().getSerializableExtra("arrayList");
         BaseApplication application=new BaseApplication();
 
         presenter=new NoticePresenter(this,majorId);
-        presenter.loadItems(noticeObjs,page++);
+
 
         adapter=new NoticeAdapter();
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        presenter.loadItems(noticeObjs,page++);
+
         recyclerView.setAdapter(adapter);
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 linearLayoutManager.getOrientation());
@@ -101,7 +105,7 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
         @Override
         public void onBindViewHolder(NHolder holder, int position) {
             holder.title.setText(noticeObjs.get(position).getTitle());
-            holder.date.setText(noticeObjs.get(position).getTitle());
+            holder.date.setText(noticeObjs.get(position).getDate());
             if(!noticeObjs.get(position).isContainFile())holder.imageView.setVisibility(View.INVISIBLE);
         }
 

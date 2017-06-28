@@ -2,11 +2,13 @@ package com.notisnow.anonimous.ssunoin.Model.Notice;
 
 import com.notisnow.anonimous.ssunoin.UI.Notice.NoticeContract;
 
+import java.io.Serializable;
+
 /**
  * Created by yang-gichang on 2017. 6. 28..
  */
 
-public class NoticeObj implements NoticeContract.Model{
+public class NoticeObj implements Serializable,NoticeContract.Model{
     String Date;
     String title;
     boolean isContainFile=true;
@@ -24,7 +26,7 @@ public class NoticeObj implements NoticeContract.Model{
     }
 
     public void setDate(String date) {
-        Date = date;
+        this.Date = date;
     }
 
     public String getTitle() {
@@ -32,6 +34,11 @@ public class NoticeObj implements NoticeContract.Model{
     }
 
     public void setTitle(String title) {
+        if(title.length()>=26){
+            title=title.substring(0,25);
+            title=title+"...";
+        }
+
         this.title = title;
     }
 

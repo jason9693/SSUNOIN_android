@@ -24,7 +24,7 @@ public class NoticePresenter implements NoticeContract.Presenter{
     @Override
     public void loadItems(ArrayList<NoticeObj> objList,int cur) {
         noiticeFetcher= new NoticeFetcher(id);
-        noiticeFetcher.getObjList(cur,objList);
+        noiticeFetcher.getObjList(cur,objList,view.getAdapter());
     }
 
     @Override

@@ -17,14 +17,16 @@ public class BaseApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+
         connectInitializer();
     }
     private void connectInitializer(){
         Log.d("in BaseApplication","init");
-        requestQueue= Volley.newRequestQueue(getApplicationContext());
+        requestQueue= Volley.newRequestQueue(this.getApplicationContext());
     }
 
     public static RequestQueue getRequestQueue(){
+        //Log.d("in BaseApplication","init");
         return requestQueue;
     }
 }

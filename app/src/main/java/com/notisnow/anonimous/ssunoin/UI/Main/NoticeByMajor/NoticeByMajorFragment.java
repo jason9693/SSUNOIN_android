@@ -15,6 +15,8 @@ import com.notisnow.anonimous.ssunoin.R;
 import com.notisnow.anonimous.ssunoin.StaticField.Data;
 import com.notisnow.anonimous.ssunoin.UI.Notice.NoticeActivity;
 
+import static android.R.id.list;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -22,6 +24,7 @@ import com.notisnow.anonimous.ssunoin.UI.Notice.NoticeActivity;
  * create an instance of this fragment.
  */
 public class NoticeByMajorFragment extends Fragment implements NoticeByMajorContract.View{
+    NoticeByMajorContract.View view=this;
     NoticeByMajorContract.Presenter presenter;
 
     public NoticeByMajorFragment() {
@@ -39,7 +42,8 @@ public class NoticeByMajorFragment extends Fragment implements NoticeByMajorCont
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d("fragment response","nbmf");
-        setPresenter();
+        view=this;
+     presenter=new NoticeByMajorPresenter(this);
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_notice_by_major, container, false);
         RecyclerView recyclerView=(RecyclerView)v.findViewById(R.id.recyclerview);
@@ -51,7 +55,7 @@ public class NoticeByMajorFragment extends Fragment implements NoticeByMajorCont
 
     @Override
     public void setPresenter() {
-        this.presenter=new NoticeByMajorPresenter();
+        this.presenter=new NoticeByMajorPresenter(this);
     }
 
 
@@ -59,17 +63,18 @@ public class NoticeByMajorFragment extends Fragment implements NoticeByMajorCont
         TextView majorName;
         TextView engMajorName;
         int position;
-        public Holder(View itemView) {
+        public Holder(final View itemView) {
             super(itemView);
             majorName=(TextView)itemView.findViewById(R.id.title);
             engMajorName=(TextView)itemView.findViewById(R.id.engtitle);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(getActivity().getApplicationContext(),NoticeActivity.class);
+                  //presenter.initLoad(position,view);
+                    Intent intent =new Intent(getActivity().getApplicationContext(),NoticeActivity.class);
                     intent.putExtra("majorId",position);
+                    //intent.putExtra("arrayList",list);
                     startActivity(intent);
-
                 }
             });
         }
