@@ -1,5 +1,6 @@
 package com.notisnow.anonimous.ssunoin.UI.Main.NoticeByMajor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.notisnow.anonimous.ssunoin.R;
 import com.notisnow.anonimous.ssunoin.StaticField.Data;
+import com.notisnow.anonimous.ssunoin.UI.Notice.NoticeActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,8 +21,8 @@ import com.notisnow.anonimous.ssunoin.StaticField.Data;
  * to handle interaction events.
  * create an instance of this fragment.
  */
-public class NoticeByMajorFragment extends Fragment{
-
+public class NoticeByMajorFragment extends Fragment implements NoticeByMajorContract.View{
+    NoticeByMajorContract.Presenter presenter;
 
     public NoticeByMajorFragment() {
         // Required empty public constructor
@@ -37,6 +39,7 @@ public class NoticeByMajorFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d("fragment response","nbmf");
+        setPresenter();
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_notice_by_major, container, false);
         RecyclerView recyclerView=(RecyclerView)v.findViewById(R.id.recyclerview);
@@ -46,6 +49,10 @@ public class NoticeByMajorFragment extends Fragment{
         return v;
     }
 
+    @Override
+    public void setPresenter() {
+        this.presenter=new NoticeByMajorPresenter();
+    }
 
 
     class Holder extends RecyclerView.ViewHolder{
@@ -59,6 +66,9 @@ public class NoticeByMajorFragment extends Fragment{
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Intent intent=new Intent(getActivity().getApplicationContext(),NoticeActivity.class);
+                    intent.putExtra("majorId",position);
+                    startActivity(intent);
 
                 }
             });
@@ -68,7 +78,7 @@ public class NoticeByMajorFragment extends Fragment{
         }
     }
 
-    class Adapter extends RecyclerView.Adapter<Holder>{
+    class Adapter extends RecyclerView.Adapter<Holder> implements ByMajorAdapterContract.View{
 
         @Override
         public Holder onCreateViewHolder(ViewGroup parent, int viewType) {

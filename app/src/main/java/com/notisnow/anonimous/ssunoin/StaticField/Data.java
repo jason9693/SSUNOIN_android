@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 
 public class Data {
+
     private static ArrayList<MajorObj> DepartmentOf = new ArrayList<>();
     static {
         DepartmentOf.add(new MajorObj(
@@ -74,4 +75,6 @@ public class Data {
     public static ArrayList<MajorObj> getDepartmentOf() {
         return DepartmentOf;
     }
+
+
 }

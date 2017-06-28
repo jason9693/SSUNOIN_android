@@ -5,8 +5,11 @@ package com.notisnow.anonimous.ssunoin.UI.Main.NoticeByMajor;
  */
 
 public interface NoticeByMajorContract {
-    interface View{}
+    interface View{
+        void setPresenter();
+    }
     interface Presenter{
+        void setView(View v);
 
     }
 }
