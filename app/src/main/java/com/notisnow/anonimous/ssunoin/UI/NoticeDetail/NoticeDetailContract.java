@@ -1,5 +1,7 @@
 package com.notisnow.anonimous.ssunoin.UI.NoticeDetail;
 
+import com.notisnow.anonimous.ssunoin.Model.DownloadItem.DownloadItem;
+
 import org.jsoup.select.Elements;
 
 /**
@@ -8,12 +10,13 @@ import org.jsoup.select.Elements;
 
 public interface NoticeDetailContract {
     interface View{
+        void refreshAdapter();
         void updateWebView(String url);
-        void updateDownloadListView(String title,String url);
+        void updateDownloadListView(DownloadItem item);
     }
     interface Presenter{
         void startDownloadTask(String url);
         void Connection(String url);
-        void UpdateView(Elements downloadList, String url);
+        void UpdateView(Elements downloadList, String ur);
     }
 }

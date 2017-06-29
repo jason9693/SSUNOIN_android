@@ -1,5 +1,7 @@
 package com.notisnow.anonimous.ssunoin.Network;
 
+import android.util.Log;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,17 +24,19 @@ public class DetailFetcher {
     public DetailFetcher(NoticeDetailContract.Presenter presenter,String url){
         this.url=url;
         this.presenter=presenter;
-        fetch();
+
     }
 
-    void fetch(){
+    public void fetch(){
         RequestQueue queue= BaseApplication.getRequestQueue();
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Document document= Jsoup.parse(url);
-                Elements downloadList=document.select("tbody").select("tr").select("td").select("a");
+                Document document= Jsoup.parse(response);
+                Elements downloadList=document.select(".bbs-view").get(0).select("tbody").select("tr").select("td").select("a");
                 String content = document.select(".frame-box").html();
+                Log.d("webViewContents",content);
+                Log.d("downladListContents",downloadList.html());
                 presenter.UpdateView(downloadList,content);
             }
         }, new Response.ErrorListener() {

@@ -1,5 +1,10 @@
 package com.notisnow.anonimous.ssunoin.UI.NoticeDetail;
 
+import android.util.Log;
+
+import com.notisnow.anonimous.ssunoin.Model.DownloadItem.DownloadItem;
+import com.notisnow.anonimous.ssunoin.Network.DetailFetcher;
+
 import org.jsoup.select.Elements;
 
 /**
@@ -20,12 +25,23 @@ public class NoticeDetailPresenter implements NoticeDetailContract.Presenter {
 
     @Override
     public void Connection(String url) {
-
+        DetailFetcher fetcher=new DetailFetcher(this,url);
+        fetcher.fetch();
     }
 
     @Override
     public void UpdateView(Elements downloadList,String url){
         view.updateWebView(url);
-        //TODO:다운로드 리스트에서 타이틀,링크 추출하기,뷰에 업데이트 시키기
+
+        for(int i=0;i<downloadList.size();i++){
+            DownloadItem item=new DownloadItem();
+            Log.d("item"+i,downloadList.get(i).toString());
+            item.setDownloadUrl(downloadList.get(i).attr("href"));
+            item.setTitle(downloadList.get(i).text());
+            view.updateDownloadListView(item);
+        }
+
+        view.refreshAdapter();
+
     }
 }
