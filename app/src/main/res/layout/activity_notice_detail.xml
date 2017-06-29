@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.notisnow.anonimous.ssunoin.UI.NoticeDetail.NoticeDetailActivity">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="53.3dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimary"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="13.3dp"
+            android:fontFamily="Gothic"
+            android:gravity="center"
+            android:text="NOTICE DETAIL"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar3"
+        android:layout_width="match_parent"
+        android:layout_height="112.525dp"
+        android:layout_below="@+id/toolbar2"
+        android:layout_centerHorizontal="true"
+        android:background="?android:attr/colorBackground"
+        android:elevation="2.275dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_marginRight="30.275dp"
+                android:layout_marginTop="17.5dp"
+                android:fontFamily="Gothic"
+                android:gravity="center_vertical"
+                android:text="Hello soongsil! Myname is Developer Yang-Kichang"
+                android:textColor="@color/colorPrimary"
+                android:textSize="21sp"
+                tools:typeface="sans" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:text="2017-03-01"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="17.5dp"
+                    android:layout_height="10dp"
+                    app:srcCompat="@mipmap/ic_attachment_black_48_dp" />
+
+                <TextView
+                    android:id="@+id/textAttach"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="13.3dp"
+                    android:layout_marginRight="10dp"
+                    android:text="attatchment:2"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="83.825dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="3dp"
+        android:paddingLeft="11.725dp"
+        android:paddingRight="11.725dp"
+        android:paddingTop="3dp" />
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/recyclerView"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar3" />
+
+
+</RelativeLayout>

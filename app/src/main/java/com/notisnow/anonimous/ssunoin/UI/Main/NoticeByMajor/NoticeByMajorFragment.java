@@ -15,8 +15,6 @@ import com.notisnow.anonimous.ssunoin.R;
 import com.notisnow.anonimous.ssunoin.StaticField.Data;
 import com.notisnow.anonimous.ssunoin.UI.Notice.NoticeActivity;
 
-import static android.R.id.list;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -70,10 +68,10 @@ public class NoticeByMajorFragment extends Fragment implements NoticeByMajorCont
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                  //presenter.initLoad(position,view);
+
                     Intent intent =new Intent(getActivity().getApplicationContext(),NoticeActivity.class);
                     intent.putExtra("majorId",position);
-                    //intent.putExtra("arrayList",list);
+
                     startActivity(intent);
                 }
             });

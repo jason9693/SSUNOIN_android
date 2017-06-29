@@ -1,5 +1,6 @@
 package com.notisnow.anonimous.ssunoin.UI.Notice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -14,64 +15,63 @@ import android.widget.TextView;
 
 import com.notisnow.anonimous.ssunoin.Model.Notice.NoticeObj;
 import com.notisnow.anonimous.ssunoin.R;
+import com.notisnow.anonimous.ssunoin.StaticField.Data;
+import com.notisnow.anonimous.ssunoin.UI.NoticeDetail.NoticeDetailActivity;
 import com.notisnow.anonimous.ssunoin.Utils.BaseApplication;
 
 import java.util.ArrayList;
 
-public class NoticeActivity extends AppCompatActivity implements NoticeContract.View{
+public class NoticeActivity extends AppCompatActivity implements NoticeContract.View {
 
     NoticeContract.Presenter presenter;
-    ArrayList<NoticeObj> noticeObjs=new ArrayList<>();
+    ArrayList<NoticeObj> noticeObjs = new ArrayList<>();
     RecyclerView recyclerView;
     NoticeAdapter adapter;
-    private int page=1;
+    private int page = 1;
+    TextView titleName;
     private EndlessRecyclerViewScrollListener listener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice);
-        int majorId=getIntent().getIntExtra("majorId",0);
-       // noticeObjs=(ArrayList<NoticeObj>)getIntent().getSerializableExtra("arrayList");
-        BaseApplication application=new BaseApplication();
+        int majorId = getIntent().getIntExtra("majorId", 0);
+        titleName = (TextView) findViewById(R.id.major);
+        titleName.setText(Data.getDepartmentOf().get(majorId).getName());
 
-        presenter=new NoticePresenter(this,majorId);
+        BaseApplication application = new BaseApplication();
 
-
-        adapter=new NoticeAdapter();
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        presenter = new NoticePresenter(this, majorId);
+        adapter = new NoticeAdapter();
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        presenter.loadItems(noticeObjs,page++);
+        presenter.loadItems(noticeObjs, page++);
 
         recyclerView.setAdapter(adapter);
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 linearLayoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
-        listener=new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        listener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 loadNextDataFromApi(page);
-
             }
         };
         recyclerView.addOnScrollListener(listener);
     }
 
 
-
     public void loadNextDataFromApi(int offset) {
-        Log.d("offset:",""+offset);
+        Log.d("offset:", "" + offset);
 
-        //noticeObjs.clear();
-        //noticeObjs.add(new NoticeObj());
-
-        presenter.loadItems(noticeObjs,page++);
+        presenter.loadItems(noticeObjs, page++);
 
         adapter.notifyDataSetChanged();
         listener.resetState();
 
-        Log.d("NoticeObjsSize",""+noticeObjs.size());
+        Log.d("NoticeObjsSize", "" + noticeObjs.size());
     }
 
     @Override
@@ -80,33 +80,56 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
     }
 
 
-    class NHolder extends RecyclerView.ViewHolder{
-        TextView title;
-        TextView date;
-        ImageView imageView;
+    class NHolder extends RecyclerView.ViewHolder {
+        //========================
+            int nPosition;
+            TextView title;
+            TextView date;
+            ImageView imageView;
+        //=========================
+
         public NHolder(View itemView) {
             super(itemView);
-            title=(TextView)itemView.findViewById(R.id.title);
-            date=(TextView)itemView.findViewById(R.id.date);
-            imageView=(ImageView)itemView.findViewById(R.id.contained);
+            title = (TextView) itemView.findViewById(R.id.title);
+            date = (TextView) itemView.findViewById(R.id.date);
+            imageView = (ImageView) itemView.findViewById(R.id.contained);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(getApplicationContext(), NoticeDetailActivity.class);
+                    intent.putExtra("title",noticeObjs.get(nPosition).getTitle());
+                    intent.putExtra("date",noticeObjs.get(nPosition).getDate());
+                    intent.putExtra("url",noticeObjs.get(nPosition).getUrl());
+
+                    startActivity(intent);
+                }
+            });
         }
     }
-    class NoticeAdapter extends RecyclerView.Adapter<NHolder> implements NoticeAdapterContract.View{
+
+    class NoticeAdapter extends RecyclerView.Adapter<NHolder> implements NoticeAdapterContract.View {
 
 
         @Override
         public NHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.list_notice_card,parent,false);
-            NHolder holder=new NHolder(v);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_notice_card, parent, false);
+            NHolder holder = new NHolder(v);
 
             return holder;
         }
 
         @Override
         public void onBindViewHolder(NHolder holder, int position) {
-            holder.title.setText(noticeObjs.get(position).getTitle());
+            String title=noticeObjs.get(position).getTitle();
+            if(title.length()>=26){
+                title=title.substring(0,25);
+                title=title+"...";
+            }
+            holder.nPosition=position;
+            holder.title.setText(title);
             holder.date.setText(noticeObjs.get(position).getDate());
-            if(!noticeObjs.get(position).isContainFile())holder.imageView.setVisibility(View.INVISIBLE);
+            if (!noticeObjs.get(position).isContainFile())
+                holder.imageView.setVisibility(View.INVISIBLE);
         }
 
         @Override

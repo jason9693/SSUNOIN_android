@@ -34,10 +34,6 @@ public class NoticeObj implements Serializable,NoticeContract.Model{
     }
 
     public void setTitle(String title) {
-        if(title.length()>=26){
-            title=title.substring(0,25);
-            title=title+"...";
-        }
 
         this.title = title;
     }
