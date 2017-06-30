@@ -7,12 +7,38 @@ package com.notisnow.anonimous.ssunoin.Model.StudentUnion;
 public class UnionInfo {
     String slogun;
     String area;
+    String facebookLink="";
+    String call="";
     int  imgId;
 
     public UnionInfo(String slogun,String area, int imgId) {
         this.slogun = slogun;
         this.area=area;
         this.imgId = imgId;
+    }
+
+    public UnionInfo(String slogun, String area, String facebookLink, String call, int imgId) {
+        this.slogun = slogun;
+        this.area = area;
+        this.facebookLink = facebookLink;
+        this.call = call;
+        this.imgId = imgId;
+    }
+
+    public String getFacebookLink() {
+        return facebookLink;
+    }
+
+    public void setFacebookLink(String facebookLink) {
+        this.facebookLink = facebookLink;
+    }
+
+    public String getCall() {
+        return call;
+    }
+
+    public void setCall(String call) {
+        this.call = call;
     }
 
     public String getArea() {

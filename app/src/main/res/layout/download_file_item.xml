@@ -29,7 +29,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="15.225dp"
                 android:layout_weight="1"
-                android:fontFamily="Gothic"
                 android:gravity="center|start"
                 android:text="TextView"
                 android:textColor="#303030"

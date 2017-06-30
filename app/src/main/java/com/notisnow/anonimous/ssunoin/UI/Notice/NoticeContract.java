@@ -13,11 +13,13 @@ import java.util.ArrayList;
 public interface NoticeContract {
     interface View{
         RecyclerView.Adapter getAdapter();
+        void clearHeadRefreshIcon();
     }
     interface Presenter{
        // void initLoad(ArrayList<NoticeObj> objList);
         void loadItems(ArrayList<NoticeObj> objList,int cur);
         void setView(View view);
+        void fetchSucced();
     }
     interface Model{
     }

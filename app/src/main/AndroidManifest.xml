@@ -4,8 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
+
         android:name=".Utils.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:screenOrientation="portrait"
             android:name=".UI.Main.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
@@ -23,12 +26,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".UI.Notice.NoticeActivity"
             android:theme="@style/CustomNoActionBar" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".UI.NoticeDetail.NoticeDetailActivity"
             android:theme="@style/CustomNoActionBar" />
-        <activity android:name=".UI.Splash.SplashActivity"
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".UI.Splash.SplashActivity"
             android:theme="@style/CustomNoActionBar"
             ></activity>
     </application>

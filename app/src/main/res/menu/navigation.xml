@@ -4,13 +4,12 @@
 
     <item
         android:id="@+id/navigation_notice"
-        android:icon="@drawable/ic_notice"
-        android:title="@string/title_notice"
-        />
+        android:icon="@mipmap/notice_enabled"
+        android:title="@string/title_notice" />
 
     <item
         android:id="@+id/navigation_student_union"
-        android:icon="@drawable/ic_mortalboard"
+        android:icon="@mipmap/scholarship_ena"
         android:title="@string/title_student_union"
 
         />

@@ -19,7 +19,7 @@ public class SplashPresenter implements SplashContract.Presenter{
             public void run() {
                 super.run();
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                 }
                 view.updateCondition();

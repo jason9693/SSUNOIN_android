@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.notisnow.anonimous.ssunoin.Model.CustomComponent.MainViewPager;
 import com.notisnow.anonimous.ssunoin.R;
+import com.notisnow.anonimous.ssunoin.UI.Main.More.MoreFragment;
 import com.notisnow.anonimous.ssunoin.UI.Main.NoticeByMajor.NoticeByMajorFragment;
 import com.notisnow.anonimous.ssunoin.UI.Main.StudentUnion.StudentUnionFragment;
 import com.notisnow.anonimous.ssunoin.UI.Splash.SplashActivity;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     viewPager.setCurrentItem(1);
                     return true;
                 case R.id.navigation_more:
-
+                    viewPager.setCurrentItem(2);
                     return true;
             }
             return false;
@@ -72,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     return new NoticeByMajorFragment();
                 case 1:
                     return new StudentUnionFragment();
+                case 2:
+                    return new MoreFragment();
                 default:
                     return null;
             }
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
 

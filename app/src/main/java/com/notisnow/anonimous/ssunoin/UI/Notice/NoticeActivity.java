@@ -2,6 +2,7 @@ package com.notisnow.anonimous.ssunoin.UI.Notice;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,8 +21,11 @@ import com.notisnow.anonimous.ssunoin.UI.NoticeDetail.NoticeDetailActivity;
 
 import java.util.ArrayList;
 
+import static android.os.Build.VERSION_CODES.N;
+
 public class NoticeActivity extends AppCompatActivity implements NoticeContract.View {
 
+    SwipeRefreshLayout swpLayout;
     NoticeContract.Presenter presenter;
     ArrayList<NoticeObj> noticeObjs = new ArrayList<>();
     RecyclerView recyclerView;
@@ -34,6 +38,7 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice);
+        swpLayout=(SwipeRefreshLayout)findViewById(R.id.refresh);
         int majorId = getIntent().getIntExtra("majorId", 0);
         titleName = (TextView) findViewById(R.id.major);
         titleName.setText(Data.getDepartmentOf().get(majorId).getName());
@@ -57,6 +62,16 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
             }
         };
         recyclerView.addOnScrollListener(listener);
+
+        swpLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                noticeObjs.clear();
+                noticeObjs=new ArrayList<NoticeObj>();
+                page=0;
+                presenter.loadItems(noticeObjs,page++);
+            }
+        });
     }
 
 
@@ -74,6 +89,11 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
     @Override
     public RecyclerView.Adapter getAdapter() {
         return adapter;
+    }
+
+    @Override
+    public void clearHeadRefreshIcon() {
+        swpLayout.setRefreshing(false);
     }
 
 
@@ -106,7 +126,6 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
 
     class NoticeAdapter extends RecyclerView.Adapter<NHolder> implements NoticeAdapterContract.View {
 
-
         @Override
         public NHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_notice_card, parent, false);
@@ -127,11 +146,14 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
             holder.date.setText(noticeObjs.get(position).getDate());
             if (!noticeObjs.get(position).isContainFile())
                 holder.imageView.setVisibility(View.INVISIBLE);
+            else holder.imageView.setVisibility(View.VISIBLE);
         }
 
         @Override
         public int getItemCount() {
             return noticeObjs.size();
         }
+
+
     }
 }

@@ -21,14 +21,21 @@ public class NoticePresenter implements NoticeContract.Presenter{
     }
 
 
+
     @Override
     public void loadItems(ArrayList<NoticeObj> objList,int cur) {
         noiticeFetcher= new NoticeFetcher(id);
+        noiticeFetcher.setPresenter(this);
         noiticeFetcher.getObjList(cur,objList,view.getAdapter());
     }
 
     @Override
     public void setView(NoticeContract.View view) {
         this.view=view;
+    }
+
+    @Override
+    public void fetchSucced() {
+        view.clearHeadRefreshIcon();
     }
 }

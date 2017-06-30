@@ -1,6 +1,7 @@
 package com.notisnow.anonimous.ssunoin.UI.NoticeDetail;
 
 import android.app.DownloadManager;
+import android.content.Context;
 
 import com.notisnow.anonimous.ssunoin.Model.DownloadItem.DownloadItem;
 
@@ -21,5 +22,6 @@ public interface NoticeDetailContract {
         void startDownloadTask(String url,String title);
         void Connection(String url);
         void UpdateView(Elements downloadList, String ur);
+       // void setDownloadAccessInit(Context context);
     }
 }

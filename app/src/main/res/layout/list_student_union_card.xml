@@ -23,7 +23,9 @@
                 android:layout_height="64dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="16dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                app:civ_border_color="@color/colorPrimary"
+                app:civ_border_width="1dp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -55,20 +57,20 @@
                     android:orientation="horizontal">
 
                     <ImageButton
+                        android:id="@+id/imgKakao"
+                        android:layout_width="18.7dp"
+                        android:layout_height="18.7dp"
+                        android:layout_marginRight="4dp"
+                        android:background="#ffffff"
+                        android:src="@mipmap/ic_call" />
+
+                    <ImageButton
                         android:id="@+id/imgFacebook"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="18.7dp"
                         android:layout_marginRight="4dp"
                         android:background="#ffffff"
                         app:srcCompat="@mipmap/facebook_share" />
-
-                    <ImageButton
-                        android:id="@+id/imgKakao"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="4dp"
-                        android:background="#ffffff"
-                        app:srcCompat="@mipmap/kakao_share" />
 
                 </LinearLayout>
 

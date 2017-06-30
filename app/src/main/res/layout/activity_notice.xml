@@ -34,16 +34,25 @@
             android:textSize="18sp" />
     </android.support.v7.widget.Toolbar>
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="13.3dp"
-        android:layout_marginRight="13.3dp"
-        android:layout_marginTop="10dp"
-        app:theme="@style/Base.CardView" />
+        android:paddingLeft="13.3dp"
+        android:paddingRight="13.3dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+
+            app:theme="@style/Base.CardView" >
+
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
 
 </RelativeLayout>

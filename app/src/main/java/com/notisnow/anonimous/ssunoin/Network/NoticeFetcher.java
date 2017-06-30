@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.notisnow.anonimous.ssunoin.Model.Notice.NoticeObj;
 import com.notisnow.anonimous.ssunoin.StaticField.Data;
+import com.notisnow.anonimous.ssunoin.UI.Notice.NoticeContract;
 import com.notisnow.anonimous.ssunoin.Utils.BaseApplication;
 
 import org.jsoup.Jsoup;
@@ -26,6 +27,7 @@ public class NoticeFetcher {
     private String url;
     private int position;
     RequestQueue queue;
+    NoticeContract.Presenter mPresenter;
     public NoticeFetcher(int position) {
         Log.d("fetcher init","init");
         this.position = position;
@@ -63,6 +65,11 @@ public class NoticeFetcher {
     }
     *this Method was Deprecated.
     */
+
+    com.android.volley.Response.Listener<String> stringListener;
+    public void setPresenter(NoticeContract.Presenter presenter){
+        this.mPresenter=presenter;
+    }
     public void getObjList(int i, final ArrayList<NoticeObj> list, final RecyclerView.Adapter adapter) {
         url = Data.getDepartmentOf().get(position).getUrl();
         queue= BaseApplication.getRequestQueue();
@@ -78,6 +85,7 @@ public class NoticeFetcher {
 
                 }
                 adapter.notifyDataSetChanged();
+                mPresenter.fetchSucced();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -87,6 +95,7 @@ public class NoticeFetcher {
             }
         });
         queue.add(request);
+
     }
 
     private NoticeObj query(int pos, Elements element) {
@@ -102,8 +111,10 @@ public class NoticeFetcher {
             case 4:
                 return JQuery(element);
             case 5:
-                return HQuery(element);
+                return CQuery(element);
             case 6:
+                return HQuery(element);
+            case 7:
                 return PQuery(element);
             default:
                 return null;
@@ -116,7 +127,7 @@ public class NoticeFetcher {
         obj.setUrl(element.get(1).select("a").attr("href"));
         obj.setDate(element.get(4).text());
         if (element.get(2).html().equals("&nbsp;")) obj.setContainFile(false);
-
+        else obj.setContainFile(true);
         return obj;
     }
 
@@ -127,7 +138,7 @@ public class NoticeFetcher {
         obj.setUrl(element.get(1).select("a").attr("href"));
         obj.setDate(element.get(4).text());
         if (element.get(2).html().equals("&nbsp;")) obj.setContainFile(false);
-
+        else obj.setContainFile(true);
         return obj;
     }
 
@@ -137,6 +148,7 @@ public class NoticeFetcher {
         obj.setUrl(element.get(1).select("a").attr("href"));
         obj.setDate(element.get(3).text());
         if (element.get(2).html().equals("&nbsp;")) obj.setContainFile(false);
+        else obj.setContainFile(true);
         return obj;
     }
 
@@ -165,7 +177,7 @@ public class NoticeFetcher {
         obj.setUrl(element.get(1).select("a").attr("href"));
         obj.setDate(element.get(4).text());
         if (element.get(2).html().equals("&nbsp;")) obj.setContainFile(false);
-
+        else obj.setContainFile(true);
         return obj;
     }
 
@@ -175,7 +187,7 @@ public class NoticeFetcher {
         obj.setUrl(element.get(1).select("a").attr("href"));
         obj.setDate(element.get(4).text());
         if (element.get(2).html().equals("&nbsp;")) obj.setContainFile(false);
-
+        else obj.setContainFile(true);
         return obj;
     }
 
@@ -185,7 +197,7 @@ public class NoticeFetcher {
         obj.setUrl(element.get(1).select("a").attr("href"));
         obj.setDate(element.get(4).text());
         if(element.get(2).html().equals("&nbsp;"))obj.setContainFile(false);
-
+        else obj.setContainFile(true);
         return obj;
     }
 

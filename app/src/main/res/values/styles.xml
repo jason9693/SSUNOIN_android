@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -12,6 +12,17 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="TextStyle">
+        <item name="android:textSize">9.3sp</item>
+        <item name="android:letterSpacing" tools:targetApi="lollipop">-0.02</item>
+        <item name="android:textColor">#a0a0a0</item>
+    </style>
+    <style name="TextStyle2">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">8sp</item>
+        <item name="android:textColor">#ffffff</item>
     </style>
 
 </resources>
