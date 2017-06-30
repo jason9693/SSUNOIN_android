@@ -1,24 +1,27 @@
 package com.notisnow.anonimous.ssunoin.UI.Main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.notisnow.anonimous.ssunoin.Model.CustomComponent.MainViewPager;
 import com.notisnow.anonimous.ssunoin.R;
 import com.notisnow.anonimous.ssunoin.UI.Main.NoticeByMajor.NoticeByMajorFragment;
+import com.notisnow.anonimous.ssunoin.UI.Main.StudentUnion.StudentUnionFragment;
+import com.notisnow.anonimous.ssunoin.UI.Splash.SplashActivity;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
     private TextView mTextMessage;
     private Fragment fragment;
-    private ViewPager viewPager;
+    private MainViewPager viewPager;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -29,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     viewPager.setCurrentItem(0);
                     return true;
                 case R.id.navigation_student_union:
-
+                    viewPager.setCurrentItem(1);
                     return true;
                 case R.id.navigation_more:
 
@@ -45,9 +48,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewPager=(ViewPager)findViewById(R.id.content);
-        viewPager.setAdapter(new PAdapter(getSupportFragmentManager()));
+        Intent StartIntent=new Intent(this, SplashActivity.class);
+        startActivity(StartIntent);
 
+        viewPager=(MainViewPager)findViewById(R.id.content);
+        viewPager.setAdapter(new PAdapter(getSupportFragmentManager()));
+        viewPager.setPagingEnabled(false);
 
        // mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -64,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             switch (position){
                 case 0:
                     return new NoticeByMajorFragment();
+                case 1:
+                    return new StudentUnionFragment();
                 default:
                     return null;
             }
@@ -74,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         @Override
         public int getCount() {
-            return 1;
+            return 2;
         }
 
 

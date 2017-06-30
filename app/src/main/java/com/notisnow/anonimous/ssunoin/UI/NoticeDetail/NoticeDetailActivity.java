@@ -1,10 +1,17 @@
 package com.notisnow.anonimous.ssunoin.UI.NoticeDetail;
 
+import android.Manifest;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +28,12 @@ public class NoticeDetailActivity extends AppCompatActivity implements NoticeDet
     TextView title;
     TextView date;
     TextView countAttatch;
+    DownloadManager mDownloadManager;
 
     RecyclerView downloadListView;
     RecyclerView.Adapter adapter;
     ArrayList<DownloadItem> items=new ArrayList<>();
+    NoticeDetailContract.Presenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +41,8 @@ public class NoticeDetailActivity extends AppCompatActivity implements NoticeDet
 
         Intent receiveIntent=getIntent();
 
-
-        NoticeDetailContract.Presenter presenter=new NoticeDetailPresenter(this);
+        mDownloadManager=(DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        presenter=new NoticeDetailPresenter(this);
 
         String receiveUrl=receiveIntent.getStringExtra("url");
         webView=(WebView)findViewById(R.id.webview);
@@ -70,16 +79,30 @@ public class NoticeDetailActivity extends AppCompatActivity implements NoticeDet
 
     @Override
     public void updateWebView(String url) {
+        //url=url.replaceAll("src=\"","src=\"www.ssu.ac.kr");
+
+        Log.d("최종url",url);
         webView.getSettings().setSupportZoom(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDisplayZoomControls(false);
-        webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setAllowContentAccess(true);
+        //webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webView.getSettings().setJavaScriptEnabled(true);
+        //webView.setWebViewClient(new WebViewClient());
+      //  webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
+        webView.loadDataWithBaseURL("http://www.ssu.ac.kr",url,"text/html","utf-8",null);
     }
 
     @Override
     public void updateDownloadListView(DownloadItem item) {
         items.add(item);
         //adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showDownload(DownloadManager.Request request) {
+        mDownloadManager.enqueue(request);
     }
 
     class FileListHolder extends RecyclerView.ViewHolder{
@@ -89,6 +112,26 @@ public class NoticeDetailActivity extends AppCompatActivity implements NoticeDet
         public FileListHolder(View itemView) {
             super(itemView);
             fileName=(TextView)itemView.findViewById(R.id.fileName);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        presenter.startDownloadTask(downloadLink, fileName.getText().toString());
+                        Log.d("downloadClicked","execute");
+                    }catch (Exception e){
+                        if(ContextCompat.checkSelfPermission(NoticeDetailActivity.this,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                            if(ActivityCompat.shouldShowRequestPermissionRationale(NoticeDetailActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                                ActivityCompat.requestPermissions(NoticeDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                        110);
+                            }else {
+                                ActivityCompat.requestPermissions(NoticeDetailActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                        110);
+                            }
+                        }
+                    }
+                }
+            });
         }
     }
     class FileListAdapter extends RecyclerView.Adapter<FileListHolder>{

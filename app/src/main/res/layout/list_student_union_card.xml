@@ -17,14 +17,13 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imageLogo"
-                android:layout_width="46dp"
+                android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="16dp"
-                app:srcCompat="@mipmap/ic_launcher" />
-
+                android:src="@mipmap/ic_launcher" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -33,7 +32,7 @@
                 android:paddingTop="10dp">
 
                 <TextView
-                    android:id="@+id/textSlogun"
+                    android:id="@+id/textName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3.3dp"
@@ -56,19 +55,20 @@
                     android:orientation="horizontal">
 
                     <ImageButton
+                        android:id="@+id/imgFacebook"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="4dp"
+                        android:background="#ffffff"
+                        app:srcCompat="@mipmap/facebook_share" />
+
+                    <ImageButton
                         android:id="@+id/imgKakao"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="4dp"
                         android:background="#ffffff"
                         app:srcCompat="@mipmap/kakao_share" />
-
-                    <ImageButton
-                        android:id="@+id/imgFacebook"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#ffffff"
-                        app:srcCompat="@mipmap/facebook_share" />
 
                 </LinearLayout>
 

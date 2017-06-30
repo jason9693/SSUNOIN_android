@@ -1,6 +1,5 @@
 package com.notisnow.anonimous.ssunoin.Network;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
@@ -11,9 +10,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.notisnow.anonimous.ssunoin.Model.Notice.NoticeObj;
 import com.notisnow.anonimous.ssunoin.StaticField.Data;
-import com.notisnow.anonimous.ssunoin.UI.Main.NoticeByMajor.NoticeByMajorContract;
-import com.notisnow.anonimous.ssunoin.UI.Main.NoticeByMajor.NoticeByMajorFragment;
-import com.notisnow.anonimous.ssunoin.UI.Notice.NoticeActivity;
 import com.notisnow.anonimous.ssunoin.Utils.BaseApplication;
 
 import org.jsoup.Jsoup;
@@ -35,7 +31,7 @@ public class NoticeFetcher {
         this.position = position;
 
     }
-    public void initFetch(final int pos,final NoticeByMajorContract.View v){
+  /*  public void initFetch(final int pos,final NoticeByMajorContract.View v){
        final  ArrayList<NoticeObj> list=new ArrayList<>();
         url = Data.getDepartmentOf().get(pos).getUrl();
         queue= BaseApplication.getRequestQueue();
@@ -43,12 +39,12 @@ public class NoticeFetcher {
             @Override
             public void onResponse(String response) {
                 Document document = Jsoup.parse(response);
-                Elements elements = document.select(".bbs-list").select("tbody").select("tr");
-                elements.remove(0); //목차 제거
-                for (int i = 0; i < elements.size(); i++) {
-                    list.add(query(pos, elements.get(i).select("td")));
-                    Log.d("elements",elements.get(i).select("td").html().toString());
+                Elements elements = document.select(".bbs-list").select("tbody").select("tr").not(".trNotice");
 
+               // elements.remove(0); //목차 제거
+                for (int i = 0; i < elements.size(); i++) {
+                        list.add(query(pos, elements.get(i).select("td")));
+                        Log.d("elements", elements.get(i).select("td").html().toString());
                 }
 
                 Intent intent =new Intent(((NoticeByMajorFragment)v).getActivity().getApplicationContext(),NoticeActivity.class);
@@ -65,6 +61,8 @@ public class NoticeFetcher {
         queue.add(request);
 
     }
+    *this Method was Deprecated.
+    */
     public void getObjList(int i, final ArrayList<NoticeObj> list, final RecyclerView.Adapter adapter) {
         url = Data.getDepartmentOf().get(position).getUrl();
         queue= BaseApplication.getRequestQueue();
@@ -72,7 +70,7 @@ public class NoticeFetcher {
             @Override
             public void onResponse(String response) {
                 Document document = Jsoup.parse(response);
-                Elements elements = document.select(".bbs-list").select("tbody").select("tr");
+                Elements elements = document.select(".bbs-list").select("tbody").select("tr").not(".trNotice");
                 //elements.remove(0); //목차 제거
                 for (int i = 0; i < elements.size(); i++) {
 
@@ -117,17 +115,18 @@ public class NoticeFetcher {
         obj.setTitle(element.get(1).select("a").text());
         obj.setUrl(element.get(1).select("a").attr("href"));
         obj.setDate(element.get(4).text());
-        if (element.get(2).data().equals("&nbsp;")) obj.setContainFile(false);
+        if (element.get(2).html().equals("&nbsp;")) obj.setContainFile(false);
 
         return obj;
     }
 
     private NoticeObj JQuery(Elements element) {
+       // Log.d("일어일문 파일첨부?",element.get(2).html());
         NoticeObj obj = new NoticeObj();
         obj.setTitle(element.get(1).select("a").text());
         obj.setUrl(element.get(1).select("a").attr("href"));
         obj.setDate(element.get(4).text());
-        if (element.get(2).text().equals("&nbsp;")) obj.setContainFile(false);
+        if (element.get(2).html().equals("&nbsp;")) obj.setContainFile(false);
 
         return obj;
     }
@@ -137,7 +136,7 @@ public class NoticeFetcher {
         obj.setTitle(element.get(1).select("a").text());
         obj.setUrl(element.get(1).select("a").attr("href"));
         obj.setDate(element.get(3).text());
-        if (element.get(2).text().equals("&nbsp;")) obj.setContainFile(false);
+        if (element.get(2).html().equals("&nbsp;")) obj.setContainFile(false);
         return obj;
     }
 
@@ -165,7 +164,7 @@ public class NoticeFetcher {
         obj.setTitle(element.get(1).select("a").text());
         obj.setUrl(element.get(1).select("a").attr("href"));
         obj.setDate(element.get(4).text());
-        if (element.get(2).text().equals("&nbsp;")) obj.setContainFile(false);
+        if (element.get(2).html().equals("&nbsp;")) obj.setContainFile(false);
 
         return obj;
     }
@@ -175,7 +174,7 @@ public class NoticeFetcher {
         obj.setTitle(element.get(1).select("a").text());
         obj.setUrl(element.get(1).select("a").attr("href"));
         obj.setDate(element.get(4).text());
-        if (element.get(2).text().equals("&nbsp;")) obj.setContainFile(false);
+        if (element.get(2).html().equals("&nbsp;")) obj.setContainFile(false);
 
         return obj;
     }
@@ -185,7 +184,7 @@ public class NoticeFetcher {
         obj.setTitle(element.get(1).select("a").text());
         obj.setUrl(element.get(1).select("a").attr("href"));
         obj.setDate(element.get(4).text());
-        if(element.get(2).text().equals("&nbsp;"))obj.setContainFile(false);
+        if(element.get(2).html().equals("&nbsp;"))obj.setContainFile(false);
 
         return obj;
     }

@@ -1,5 +1,9 @@
 package com.notisnow.anonimous.ssunoin.UI.NoticeDetail;
 
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import com.notisnow.anonimous.ssunoin.Model.DownloadItem.DownloadItem;
@@ -14,13 +18,25 @@ import org.jsoup.select.Elements;
 public class NoticeDetailPresenter implements NoticeDetailContract.Presenter {
 
     NoticeDetailContract.View view;
+
+    DownloadManager mDownloadManager;
     public NoticeDetailPresenter(NoticeDetailContract.View v){
         this.view=v;
+        mDownloadManager=(DownloadManager)v.getSystemService(Context.DOWNLOAD_SERVICE);
     }
 
-    @Override
-    public void startDownloadTask(String url) {
 
+    @Override
+    public void startDownloadTask(String url,String title) {
+        Uri uriToDownload=Uri.parse(url);
+        DownloadManager.Request mRequest = new DownloadManager.Request(uriToDownload);
+        mRequest.setTitle(title);
+        mRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        mRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title);
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();
+
+        //view.showDownload(mRequest);
+        mDownloadManager.enqueue(mRequest);
     }
 
     @Override

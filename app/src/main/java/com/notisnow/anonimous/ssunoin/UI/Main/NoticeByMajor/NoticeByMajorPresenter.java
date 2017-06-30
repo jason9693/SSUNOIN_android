@@ -19,7 +19,7 @@ public class NoticeByMajorPresenter implements NoticeByMajorContract.Presenter{
     @Override
     public void initLoad(int position, NoticeByMajorContract.View v) {
         NoticeFetcher fetcher = new NoticeFetcher(position);
-        fetcher.initFetch(position,v);
+        //fetcher.initFetch(position,v);
     }
 
 

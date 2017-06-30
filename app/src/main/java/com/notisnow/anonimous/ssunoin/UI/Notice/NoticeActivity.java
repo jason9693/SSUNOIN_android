@@ -17,7 +17,6 @@ import com.notisnow.anonimous.ssunoin.Model.Notice.NoticeObj;
 import com.notisnow.anonimous.ssunoin.R;
 import com.notisnow.anonimous.ssunoin.StaticField.Data;
 import com.notisnow.anonimous.ssunoin.UI.NoticeDetail.NoticeDetailActivity;
-import com.notisnow.anonimous.ssunoin.Utils.BaseApplication;
 
 import java.util.ArrayList;
 
@@ -38,8 +37,6 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
         int majorId = getIntent().getIntExtra("majorId", 0);
         titleName = (TextView) findViewById(R.id.major);
         titleName.setText(Data.getDepartmentOf().get(majorId).getName());
-
-        BaseApplication application = new BaseApplication();
 
         presenter = new NoticePresenter(this, majorId);
         adapter = new NoticeAdapter();
