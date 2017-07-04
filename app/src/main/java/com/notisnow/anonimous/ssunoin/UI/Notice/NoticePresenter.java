@@ -12,6 +12,8 @@ import java.util.ArrayList;
 public class NoticePresenter implements NoticeContract.Presenter{
     private NoticeContract.View view;
     NoticeFetcher noiticeFetcher;
+    private boolean flagFooter=false;
+
     int id=0;
     public NoticePresenter(NoticeContract.View view,int id){
 
@@ -19,8 +21,6 @@ public class NoticePresenter implements NoticeContract.Presenter{
         this.id=id;
 
     }
-
-
 
     @Override
     public void loadItems(ArrayList<NoticeObj> objList,int cur) {
@@ -37,5 +37,16 @@ public class NoticePresenter implements NoticeContract.Presenter{
     @Override
     public void fetchSucced() {
         view.clearHeadRefreshIcon();
+    }
+
+    @Override
+    public int getFooterCount() {
+        if(flagFooter==true)return 1;
+        else return 0;
+    }
+
+    @Override
+    public void setFooterCount(boolean flag) {
+        flagFooter=flag;
     }
 }

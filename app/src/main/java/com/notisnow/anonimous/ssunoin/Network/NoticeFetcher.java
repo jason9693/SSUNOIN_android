@@ -84,6 +84,7 @@ public class NoticeFetcher {
                    list.add(query(position, elements.get(i).select("td")));
 
                 }
+                mPresenter.setFooterCount(false);
                 adapter.notifyDataSetChanged();
                 mPresenter.fetchSucced();
             }
@@ -91,6 +92,8 @@ public class NoticeFetcher {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error","error");
+                mPresenter.setFooterCount(false);
+                adapter.notifyDataSetChanged();
                 return;
             }
         });

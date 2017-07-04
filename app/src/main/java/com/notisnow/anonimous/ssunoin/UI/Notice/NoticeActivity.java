@@ -21,10 +21,9 @@ import com.notisnow.anonimous.ssunoin.UI.NoticeDetail.NoticeDetailActivity;
 
 import java.util.ArrayList;
 
-import static android.os.Build.VERSION_CODES.N;
-
 public class NoticeActivity extends AppCompatActivity implements NoticeContract.View {
-
+    private int FOOTER = 1;
+    private int NOFOOTER = 0;
     SwipeRefreshLayout swpLayout;
     NoticeContract.Presenter presenter;
     ArrayList<NoticeObj> noticeObjs = new ArrayList<>();
@@ -38,19 +37,20 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice);
-        swpLayout=(SwipeRefreshLayout)findViewById(R.id.refresh);
+        swpLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
         int majorId = getIntent().getIntExtra("majorId", 0);
         titleName = (TextView) findViewById(R.id.major);
         titleName.setText(Data.getDepartmentOf().get(majorId).getName());
 
         presenter = new NoticePresenter(this, majorId);
         adapter = new NoticeAdapter();
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
+
 
         presenter.loadItems(noticeObjs, page++);
 
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 linearLayoutManager.getOrientation());
@@ -63,13 +63,14 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
         };
         recyclerView.addOnScrollListener(listener);
 
+
         swpLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 noticeObjs.clear();
-                noticeObjs=new ArrayList<NoticeObj>();
-                page=0;
-                presenter.loadItems(noticeObjs,page++);
+                noticeObjs = new ArrayList<NoticeObj>();
+                page = 0;
+                presenter.loadItems(noticeObjs, page++);
             }
         });
     }
@@ -79,7 +80,7 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
         Log.d("offset:", "" + offset);
 
         presenter.loadItems(noticeObjs, page++);
-
+        presenter.setFooterCount(true);
         adapter.notifyDataSetChanged();
         listener.resetState();
 
@@ -99,61 +100,92 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
 
     class NHolder extends RecyclerView.ViewHolder {
         //========================
-            int nPosition;
-            TextView title;
-            TextView date;
-            ImageView imageView;
+        int nPosition;
+        TextView title;
+        TextView date;
+        ImageView imageView;
         //=========================
 
-        public NHolder(View itemView) {
-            super(itemView);
+        public void setContentHolder() {
             title = (TextView) itemView.findViewById(R.id.title);
             date = (TextView) itemView.findViewById(R.id.date);
             imageView = (ImageView) itemView.findViewById(R.id.contained);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(getApplicationContext(), NoticeDetailActivity.class);
-                    intent.putExtra("title",noticeObjs.get(nPosition).getTitle());
-                    intent.putExtra("date",noticeObjs.get(nPosition).getDate());
-                    intent.putExtra("url",noticeObjs.get(nPosition).getUrl());
+                    Intent intent = new Intent(getApplicationContext(), NoticeDetailActivity.class);
+                    intent.putExtra("title", noticeObjs.get(nPosition).getTitle());
+                    intent.putExtra("date", noticeObjs.get(nPosition).getDate());
+                    intent.putExtra("url", noticeObjs.get(nPosition).getUrl());
 
                     startActivity(intent);
                 }
             });
         }
+
+        public void setFooterHolder() {
+
+        }
+
+        public NHolder(View itemView) {
+            super(itemView);
+            if (nPosition>=noticeObjs.size()) {
+                setFooterHolder();
+            }else{
+                setContentHolder();
+            }
+        }
     }
 
     class NoticeAdapter extends RecyclerView.Adapter<NHolder> implements NoticeAdapterContract.View {
+        private int FOOTER= -21;
+        private int CONTENTS=-1;
 
         @Override
         public NHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_notice_card, parent, false);
-            NHolder holder = new NHolder(v);
-
+            NHolder holder;
+            if(viewType==CONTENTS){
+                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_notice_card, parent, false);
+                holder= new NHolder(v);
+            } else{
+                View Fv=LayoutInflater.from(parent.getContext()).inflate(R.layout.scroll_loading_item,parent,false);
+                holder= new NHolder(Fv);
+            }
             return holder;
         }
 
         @Override
+        public int getItemViewType(int position) {
+            if(position==noticeObjs.size()) return FOOTER;
+            else return CONTENTS;
+        }
+
+        @Override
         public void onBindViewHolder(NHolder holder, int position) {
-            String title=noticeObjs.get(position).getTitle();
-            if(title.length()>=26){
-                title=title.substring(0,25);
-                title=title+"...";
+         if(position<noticeObjs.size()) onBindContentsViewHolder(holder,position);
+            else onBindFooterViewHolder();
+        }
+
+        @Override
+        public int getItemCount() {
+            return noticeObjs.size() + presenter.getFooterCount();
+        }
+
+        public void onBindContentsViewHolder(NHolder holder,int position){
+            String title = noticeObjs.get(position).getTitle();
+            if (title.length() >= 26) {
+                title = title.substring(0, 25);
+                title = title + "...";
             }
-            holder.nPosition=position;
+            holder.nPosition = position;
             holder.title.setText(title);
             holder.date.setText(noticeObjs.get(position).getDate());
             if (!noticeObjs.get(position).isContainFile())
                 holder.imageView.setVisibility(View.INVISIBLE);
             else holder.imageView.setVisibility(View.VISIBLE);
         }
+        public void onBindFooterViewHolder(){
 
-        @Override
-        public int getItemCount() {
-            return noticeObjs.size();
         }
-
-
     }
 }

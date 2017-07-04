@@ -20,6 +20,8 @@ public interface NoticeContract {
         void loadItems(ArrayList<NoticeObj> objList,int cur);
         void setView(View view);
         void fetchSucced();
+        int getFooterCount();
+        void setFooterCount(boolean flag);
     }
     interface Model{
     }

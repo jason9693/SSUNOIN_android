@@ -20,7 +20,7 @@ public class UnionInfoList {
         list.add(new UnionInfo("불어불문학과 학생회","조만식기념관 317호","https://www.facebook.com/ssufrancais/","",R.mipmap.ic_launcher));
         list.add(new UnionInfo("독어독문학과 학생회","조만식기념관 318호",R.mipmap.ic_launcher));
         list.add(new UnionInfo("사학과 학생회","조만식기념관 319호","https://www.facebook.com/숭실대학교-사학과-355749764472974/?fref=ts","",R.mipmap.ic_launcher));
-        list.add(new UnionInfo("철학과 학생회","조만식기념관 322호",R.mipmap.ic_launcher));
+        list.add(new UnionInfo("철학과 학생회","조만식기념관 322호","https://m.facebook.com/ssuph25s/","",R.mipmap.ic_launcher));
         list.add(new UnionInfo("기독교학과 학생회","조만식기념관 303호",R.mipmap.union_chr));
     }
 
